@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Clinic +Saúde - Referência em saúde com atendimento humanizado e tecnologia de ponta. Agende sua consulta.">
+    <title>Clinic +Saúde | Cuidando de você com excelência</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><path d='M24 4C20 4 17 7 17 11V17H11C7 17 4 20 4 24C4 28 7 31 11 31H17' stroke='%2300BCD4' stroke-width='5' stroke-linecap='round' fill='none'/><path d='M17 31V37C17 41 20 44 24 44C28 44 31 41 31 37V31H37C41 31 44 28 44 24C44 20 41 17 37 17H31' stroke='%230077BB' stroke-width='5' stroke-linecap='round' fill='none'/><path d='M31 17V11C31 7 28 4 24 4' stroke='%230099CC' stroke-width='5' stroke-linecap='round' fill='none'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800;900&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        :root {
+            --blue: #0066CC; --blue-dark: #004A99; --blue-deeper: #002B5C;
+            --blue-light: #E8F2FF; --blue-accent: #3399FF; --blue-subtle: #F0F7FF;
+            --white: #FFF; --gray-50: #FAFBFC; --gray-100: #F4F5F7;
+            --gray-200: #E4E7EB; --gray-400: #9CA3AF; --gray-500: #6B7280;
+            --gray-700: #374151; --gray-900: #111827;
+            --font: 'Sora', sans-serif;
+            --font2: 'Sora', sans-serif;
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease2: cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        html { -webkit-font-smoothing: antialiased; }
+        body { font-family: var(--font2); color: var(--gray-900); background: var(--white); overflow-x: hidden; }
+        img { max-width:100%; display:block; }
+        a { text-decoration:none; color:inherit; }
+        ul { list-style:none; }
+        .container { max-width:1140px; margin:0 auto; padding:0 48px; }
+
+        /* === CUSTOM CURSOR === */
+        .cursor { position:fixed; width:20px; height:20px; border:2px solid var(--blue); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:width 0.3s var(--ease), height 0.3s var(--ease), border-color 0.3s; mix-blend-mode:difference; display:none; }
+        .cursor.hover { width:50px; height:50px; border-color:var(--blue-accent); }
+        @media(pointer:fine) { .cursor { display:block; } }
+
+        /* === SCROLL PROGRESS === */
+        .scroll-progress { position:fixed; top:0; left:0; height:3px; background:linear-gradient(90deg,var(--blue),var(--blue-accent)); width:0%; z-index:10000; transition:none; }
+
+        /* === LOADER === */
+        .loader { position:fixed; inset:0; background:var(--white); z-index:99999; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:24px; transition:opacity 0.6s var(--ease), visibility 0.6s; }
+        .loader.hide { opacity:0; visibility:hidden; }
+        .loader-logo { width:60px; height:60px; animation:loaderPulse 1.2s ease-in-out infinite; }
+        .loader-bar { width:200px; height:3px; background:var(--gray-200); border-radius:3px; overflow:hidden; }
+        .loader-bar-fill { height:100%; background:linear-gradient(90deg,var(--blue),var(--blue-accent)); width:0%; transition:width 0.3s; border-radius:3px; }
+        @keyframes loaderPulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.1);opacity:0.7} }
+
+        /* === NAVBAR === */
+        .nav { position:fixed; top:0; left:0; right:0; z-index:1000; padding:20px 0; transition:all 0.5s var(--ease); }
+        .nav.scrolled { background:rgba(255,255,255,0.92); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); padding:12px 0; box-shadow:0 1px 30px rgba(0,0,0,0.06); }
+        .nav .container { display:flex; align-items:center; justify-content:space-between; }
+        .logo { display:flex; align-items:center; gap:12px; }
+        .logo svg { width:40px; height:40px; transition:transform 0.5s var(--ease); }
+        .logo:hover svg { transform:rotate(90deg) scale(1.1); }
+        .logo-text { font-family:'Outfit', sans-serif; font-weight:900; font-size:1.45rem; letter-spacing:-0.03em; text-transform:uppercase; }
+        .logo-text span { background:linear-gradient(135deg,#00BCD4,#0077BB); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+        .nav-links { display:flex; align-items:center; gap:36px; }
+        .nav-links a:not(.btn) { font-size:0.88rem; font-weight:500; color:var(--gray-700); position:relative; transition:color 0.3s; }
+        .nav-links a:not(.btn)::after { content:''; position:absolute; bottom:-6px; left:0; width:0; height:2px; background:var(--blue); transition:width 0.4s var(--ease); border-radius:2px; }
+        .nav-links a:not(.btn):hover { color:var(--blue); }
+        .nav-links a:not(.btn):hover::after { width:100%; }
+
+        .btn { display:inline-flex; align-items:center; gap:8px; font-family:var(--font); font-weight:600; font-size:0.88rem; padding:13px 30px; border-radius:60px; border:none; cursor:pointer; transition:all 0.4s var(--ease); position:relative; overflow:hidden; }
+        .btn-primary { background:var(--blue); color:var(--white); }
+        .btn-primary::before { content:''; position:absolute; inset:0; background:var(--blue-dark); transform:translateY(100%); transition:transform 0.4s var(--ease); border-radius:60px; }
+        .btn-primary:hover::before { transform:translateY(0); }
+        .btn-primary span, .btn-primary svg { position:relative; z-index:1; }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 10px 30px rgba(0,102,204,0.3); }
+        .btn-outline { background:transparent; border:2px solid var(--gray-200); color:var(--gray-700); }
+        .btn-outline:hover { border-color:var(--blue); color:var(--blue); transform:translateY(-2px); }
+        .btn-lg { padding:17px 40px; font-size:0.95rem; }
+
+        .hamburger { display:none; background:none; border:none; cursor:pointer; padding:8px; z-index:1001; }
+        .hamburger svg { width:28px; height:28px; stroke:var(--gray-900); transition:0.3s; }
+
+        .mobile-menu { display:none; position:fixed; inset:0; background:var(--white); z-index:999; padding:100px 40px; flex-direction:column; gap:4px; }
+        .mobile-menu.open { display:flex; animation:fadeUp 0.4s var(--ease); }
+        .mobile-menu a { font-family:var(--font); font-size:2rem; font-weight:700; color:var(--gray-900); padding:16px 0; border-bottom:1px solid var(--gray-200); opacity:0; animation:slideInLink 0.5s var(--ease) forwards; }
+        .mobile-menu a:nth-child(1){animation-delay:0.05s} .mobile-menu a:nth-child(2){animation-delay:0.1s} .mobile-menu a:nth-child(3){animation-delay:0.15s} .mobile-menu a:nth-child(4){animation-delay:0.2s} .mobile-menu a:nth-child(5){animation-delay:0.25s} .mobile-menu a:nth-child(6){animation-delay:0.3s} .mobile-menu a:nth-child(7){animation-delay:0.35s}
+        @keyframes slideInLink { from{opacity:0;transform:translateX(-30px)} to{opacity:1;transform:translateX(0)} }
+        @keyframes fadeUp { from{opacity:0} to{opacity:1} }
+
+        /* === HERO === */
+        .hero { min-height:100vh; display:flex; align-items:center; position:relative; overflow:hidden; padding:140px 0 100px; }
+        .hero-bg { position:absolute; inset:0; }
+        .hero-bg .circle { position:absolute; border-radius:50%; will-change:transform; }
+        .hero-bg .c1 { width:800px; height:800px; top:-300px; right:-200px; background:radial-gradient(circle,rgba(0,102,204,0.06) 0%,transparent 70%); }
+        .hero-bg .c2 { width:600px; height:600px; bottom:-200px; left:-200px; background:radial-gradient(circle,rgba(51,153,255,0.05) 0%,transparent 70%); }
+        .hero-bg .c3 { width:200px; height:200px; top:50%; left:40%; background:radial-gradient(circle,rgba(0,102,204,0.04) 0%,transparent 70%); }
+
+        .hero .container { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; position:relative; z-index:1; }
+        .hero-content { max-width:540px; }
+
+        .hero-badge { display:inline-flex; align-items:center; gap:10px; background:var(--blue-light); color:var(--blue); font-family:var(--font); font-weight:600; font-size:0.75rem; padding:10px 22px; border-radius:60px; letter-spacing:1px; text-transform:uppercase; opacity:0; transform:translateY(20px); }
+        .hero-badge .dot { width:8px; height:8px; background:var(--blue); border-radius:50%; animation:pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.5);opacity:0.4} }
+
+        .hero h1 { font-family:var(--font); font-size:3.8rem; font-weight:800; line-height:1.06; letter-spacing:-0.03em; margin:28px 0 24px; }
+        .hero h1 .word { display:inline-block; overflow:hidden; vertical-align:top; }
+        .hero h1 .word-inner { display:inline-block; transform:translateY(110%); transition:transform 1s var(--ease); }
+        .hero h1 .word-inner.visible { transform:translateY(0); }
+        .hero h1 .gradient { background:linear-gradient(135deg,var(--blue),var(--blue-accent)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+        .hero-desc { font-size:1.1rem; color:var(--gray-500); line-height:1.75; margin-bottom:44px; opacity:0; transform:translateY(30px); }
+        .hero-buttons { display:flex; gap:16px; opacity:0; transform:translateY(30px); }
+
+        .hero-visual { position:relative; display:flex; justify-content:center; align-items:flex-end; }
+        .hero-img-wrap { position:relative; width:140%; max-width:700px; opacity:0; transform:scale(0.9); margin-right:-20%; }
+
+        /* Shadow/glow behind the person */
+        .hero-img-shadow { position:absolute; bottom:40px; left:50%; transform:translateX(-50%); width:70%; height:80%; border-radius:50%; background:radial-gradient(ellipse, rgba(0,136,204,0.25) 0%, rgba(0,188,212,0.15) 30%, transparent 70%); filter:blur(40px); z-index:0; pointer-events:none; }
+        .hero-img-shadow-2 { position:absolute; bottom:20px; left:50%; transform:translateX(-50%); width:50%; height:60%; border-radius:50%; background:radial-gradient(ellipse, rgba(0,102,204,0.2) 0%, transparent 70%); filter:blur(50px); z-index:0; }
+        .hero-img-shape { display:none; }
+
+        .hero-person { position:relative; z-index:1; width:100%; height:auto; filter:drop-shadow(0 8px 20px rgba(0,60,120,0.25)) drop-shadow(0 25px 50px rgba(0,102,204,0.18)) drop-shadow(0 0 80px rgba(0,136,204,0.12)); }
+
+        .float-card { position:absolute; background:var(--white); border-radius:18px; padding:18px 22px; box-shadow:0 15px 50px rgba(0,0,0,0.1); z-index:5; display:flex; align-items:center; gap:14px; opacity:0; transform:translateY(20px); will-change:transform; }
+        .fc1 { top:15%; right:-30px; }
+        .fc2 { bottom:18%; left:-30px; }
+        .fc-icon { width:46px; height:46px; min-width:46px; border-radius:13px; display:flex; align-items:center; justify-content:center; }
+        .fc-text h4 { font-family:var(--font); font-weight:700; font-size:0.88rem; line-height:1.3; }
+        .fc-text p { font-size:0.73rem; color:var(--gray-500); margin-top:2px; }
+
+        /* === MARQUEE === */
+        .marquee { padding:40px 0; border-top:1px solid var(--gray-200); border-bottom:1px solid var(--gray-200); overflow:hidden; background:var(--white); }
+        .marquee-track { display:flex; gap:60px; animation:marquee 30s linear infinite; width:max-content; }
+        .marquee-item { display:flex; align-items:center; gap:16px; white-space:nowrap; font-family:var(--font); font-size:1.1rem; font-weight:600; color:var(--gray-400); }
+        .marquee-item .m-dot { width:8px; height:8px; background:var(--blue); border-radius:50%; }
+        @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+        /* === STATS === */
+        .stats { padding:100px 0; background:var(--white); }
+        .stats .container { display:grid; grid-template-columns:repeat(4,1fr); gap:32px; }
+        .stat { text-align:center; padding:40px 20px; border-radius:24px; transition:all 0.5s var(--ease); }
+        .stat:hover { background:var(--blue-subtle); transform:translateY(-6px); }
+        .stat-num { font-family:var(--font); font-size:3.2rem; font-weight:800; background:linear-gradient(135deg,var(--blue),var(--blue-accent)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1; margin-bottom:8px; }
+        .stat-label { font-size:0.88rem; color:var(--gray-500); font-weight:500; }
+
+        /* === SECTIONS === */
+        .section { padding:120px 0; }
+        .sec-header { text-align:center; max-width:600px; margin:0 auto 80px; }
+        .sec-tag { display:inline-flex; align-items:center; gap:10px; font-family:var(--font); font-size:0.75rem; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:2px; margin-bottom:20px; }
+        .sec-tag::before, .sec-tag::after { content:''; width:20px; height:2px; background:var(--blue); border-radius:2px; }
+        .sec-header h2 { font-family:var(--font); font-size:2.8rem; font-weight:800; line-height:1.1; letter-spacing:-0.03em; margin-bottom:20px; }
+        .sec-header h2 .h-blue { color:var(--blue); }
+        .sec-header p { font-size:1.05rem; color:var(--gray-500); line-height:1.7; }
+
+        /* === SPECIALTIES — BENTO === */
+        .specs { background:var(--gray-50); }
+        .specs-top { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:64px; gap:40px; }
+        .specs-top-left { max-width:560px; }
+        .specs-top-left .sec-tag { justify-content:flex-start; }
+        .specs-top-left h2 { font-family:var(--font); font-size:2.8rem; font-weight:800; line-height:1.1; letter-spacing:-0.03em; }
+        .specs-top-left h2 .h-blue { color:var(--blue); }
+        .specs-top-right { max-width:340px; flex-shrink:0; }
+        .specs-top-right p { font-size:0.95rem; color:var(--gray-500); line-height:1.7; }
+
+        .bento { display:grid; grid-template-columns:repeat(12,1fr); grid-auto-rows:minmax(80px,auto); gap:20px; }
+
+        .bento-item { background:var(--white); border-radius:24px; position:relative; overflow:hidden; cursor:default; transition:all 0.6s var(--ease); }
+        .bento-item:hover { transform:translateY(-6px); box-shadow:0 30px 70px rgba(0,102,204,0.12); }
+
+        /* Sizes */
+        .b-wide { grid-column:span 8; grid-row:span 3; }
+        .b-tall { grid-column:span 4; grid-row:span 3; }
+        .b-sq { grid-column:span 4; grid-row:span 3; }
+        .b-rect { grid-column:span 4; grid-row:span 3; }
+        .b-long { grid-column:span 4; grid-row:span 3; }
+
+        /* Inner layout */
+        .bento-inner { padding:40px 36px; height:100%; display:flex; flex-direction:column; justify-content:space-between; position:relative; z-index:2; }
+        .bento-num { font-family:var(--font); font-size:6rem; font-weight:800; line-height:0.85; color:rgba(0,102,204,0.06); position:absolute; top:20px; right:28px; pointer-events:none; transition:all 0.6s var(--ease); }
+        .bento-item:hover .bento-num { color:rgba(0,102,204,0.12); transform:scale(1.08); }
+
+        .bento-icon { width:56px; height:56px; border-radius:16px; display:flex; align-items:center; justify-content:center; margin-bottom:auto; transition:all 0.5s var(--ease); }
+        .bento-icon.bg-blue { background:var(--blue-light); }
+        .bento-icon.bg-gradient { background:linear-gradient(135deg,var(--blue),var(--blue-accent)); }
+        .bento-icon.bg-gradient svg { stroke:white; }
+        .bento-item:hover .bento-icon.bg-blue { background:var(--blue); }
+        .bento-item:hover .bento-icon.bg-blue svg { stroke:white; }
+
+        .bento-text { margin-top:auto; }
+        .bento-text h3 { font-family:var(--font); font-size:1.35rem; font-weight:700; margin-bottom:10px; }
+        .bento-text p { font-size:0.88rem; color:var(--gray-500); line-height:1.65; max-width:90%; }
+        .bento-line { width:40px; height:3px; background:linear-gradient(90deg,var(--blue),var(--blue-accent)); border-radius:3px; margin-bottom:16px; transition:width 0.5s var(--ease); }
+        .bento-item:hover .bento-line { width:80px; }
+
+        /* Featured card with image */
+        .b-featured { background:linear-gradient(135deg,var(--blue),var(--blue-dark)); color:var(--white); }
+        .b-featured .bento-num { color:rgba(255,255,255,0.08); }
+        .b-featured:hover .bento-num { color:rgba(255,255,255,0.15); }
+        .b-featured .bento-text p { color:rgba(255,255,255,0.7); max-width:60%; }
+        .b-featured .bento-text h3 { color:var(--white); }
+        .b-featured .bento-line { background:rgba(255,255,255,0.4); }
+        .b-featured:hover .bento-line { background:var(--white); }
+        .b-featured-img { position:absolute; right:0; bottom:0; width:45%; height:100%; object-fit:cover; object-position:center top; opacity:0.35; mask-image:linear-gradient(to left,rgba(0,0,0,0.6),transparent 90%); -webkit-mask-image:linear-gradient(to left,rgba(0,0,0,0.6),transparent 90%); transition:opacity 0.6s; }
+        .b-featured:hover .b-featured-img { opacity:0.5; }
+
+        /* Outlined card */
+        .b-outline { background:transparent; border:2px solid var(--gray-200); }
+        .b-outline:hover { border-color:var(--blue); background:var(--blue-subtle); }
+
+        /* Pattern card */
+        .b-pattern { background-image:radial-gradient(circle at 2px 2px, var(--gray-200) 1px, transparent 0); background-size:24px 24px; }
+
+        @media(max-width:1024px) {
+            .bento { grid-template-columns:repeat(8,1fr); }
+            .b-wide { grid-column:span 8; }
+            .b-tall, .b-sq, .b-rect, .b-long { grid-column:span 4; }
+        }
+        @media(max-width:810px) {
+            .specs-top { flex-direction:column; align-items:flex-start; gap:16px; }
+            .specs-top-left h2 { font-size:2.2rem; }
+            .bento { grid-template-columns:1fr; }
+            .b-wide, .b-tall, .b-sq, .b-rect, .b-long { grid-column:span 1; grid-row:span 1; }
+            .bento-inner { padding:32px 28px; min-height:220px; }
+            .bento-num { font-size:4rem; }
+            .b-featured .bento-text p { max-width:100%; }
+            .b-featured-img { width:35%; opacity:0.2; }
+        }
+
+        /* === ABOUT === */
+        .about .container { display:grid; grid-template-columns:1fr 1fr; gap:100px; align-items:center; }
+        .about-vis { position:relative; }
+        .about-img { border-radius:28px; overflow:hidden; position:relative; height:520px; }
+        .about-img img { width:100%; height:100%; object-fit:cover; object-position:center; transition:transform 8s var(--ease); }
+        .about-img:hover img { transform:scale(1.08); }
+        .about-img-overlay { position:absolute; inset:0; background:linear-gradient(180deg,transparent 50%,rgba(0,51,102,0.3)); }
+        .about-badge { position:absolute; bottom:24px; left:24px; background:var(--white); border-radius:16px; padding:20px 24px; box-shadow:0 10px 40px rgba(0,0,0,0.1); display:flex; align-items:center; gap:16px; z-index:2; }
+        .about-badge-num { font-family:var(--font); font-size:2.2rem; font-weight:800; color:var(--blue); line-height:1; }
+        .about-badge-text { font-size:0.85rem; color:var(--gray-500); line-height:1.4; }
+        .about-badge-text strong { color:var(--gray-900); display:block; }
+        .about-accent { position:absolute; bottom:-20px; right:-20px; width:180px; height:180px; border-radius:24px; background:linear-gradient(135deg,var(--blue),var(--blue-accent)); z-index:-1; opacity:0.15; }
+
+        .about-content .sec-tag { justify-content:flex-start; }
+        .about-content h2 { font-family:var(--font); font-size:2.6rem; font-weight:800; line-height:1.1; letter-spacing:-0.02em; margin-bottom:24px; }
+        .about-content > p { font-size:1rem; color:var(--gray-500); line-height:1.75; margin-bottom:40px; }
+        .about-features { display:flex; flex-direction:column; gap:28px; margin-bottom:44px; }
+        .about-feat { display:flex; gap:20px; align-items:flex-start; }
+        .about-feat-icon { width:52px; height:52px; min-width:52px; background:var(--blue-light); border-radius:16px; display:flex; align-items:center; justify-content:center; transition:all 0.4s var(--ease); }
+        .about-feat:hover .about-feat-icon { background:var(--blue); transform:rotate(-8deg) scale(1.05); }
+        .about-feat:hover .about-feat-icon svg { stroke:white; }
+        .about-feat h4 { font-family:var(--font); font-weight:700; font-size:1.05rem; margin-bottom:6px; }
+        .about-feat p { font-size:0.88rem; color:var(--gray-500); line-height:1.6; }
+
+        /* === PARALLAX DIVIDER === */
+        .par-div { position:relative; height:500px; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+        .par-div-bg { position:absolute; inset:-30%; width:160%; height:160%; background:url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1600&q=80&auto=format') center/cover; will-change:transform; }
+        .par-div-overlay { position:absolute; inset:0; background:linear-gradient(135deg,rgba(0,43,92,0.92),rgba(0,102,204,0.85)); }
+        .par-div-content { position:relative; z-index:1; text-align:center; color:var(--white); max-width:700px; padding:0 40px; }
+        .par-div-content h2 { font-family:var(--font); font-size:3rem; font-weight:800; margin-bottom:20px; letter-spacing:-0.02em; }
+        .par-div-content p { font-size:1.15rem; opacity:0.7; line-height:1.7; margin-bottom:36px; }
+        .par-div-stats { display:flex; justify-content:center; gap:48px; margin-top:40px; }
+        .par-div-stat { text-align:center; }
+        .par-div-stat h3 { font-size:2.6rem; font-weight:800; margin-bottom:4px; }
+        .par-div-stat p { font-size:0.85rem; opacity:0.6; }
+
+        /* === DOCTORS === */
+        .doctors { background:var(--white); }
+        .doc-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:28px; }
+        .doc-card { text-align:center; cursor:default; }
+        .doc-img { position:relative; border-radius:24px; overflow:hidden; margin-bottom:24px; height:340px; background:linear-gradient(180deg,var(--blue-subtle),var(--blue-light)); }
+        .doc-img img { width:100%; height:100%; object-fit:cover; object-position:top; transition:transform 0.7s var(--ease); }
+        .doc-card:hover .doc-img img { transform:scale(1.06); }
+        .doc-img::after { content:''; position:absolute; bottom:0; left:0; right:0; height:80px; background:linear-gradient(transparent,rgba(0,102,204,0.1)); opacity:0; transition:opacity 0.5s; }
+        .doc-card:hover .doc-img::after { opacity:1; }
+        .doc-img .doc-line { position:absolute; bottom:0; left:0; right:0; height:4px; background:linear-gradient(90deg,var(--blue),var(--blue-accent)); transform:scaleX(0); transition:transform 0.6s var(--ease); transform-origin:left; }
+        .doc-card:hover .doc-line { transform:scaleX(1); }
+        .doc-card h3 { font-family:var(--font); font-weight:700; font-size:1.1rem; margin-bottom:6px; }
+        .doc-card p { font-size:0.85rem; color:var(--blue); font-weight:600; }
+
+        /* === TESTIMONIALS === */
+        .test { background:var(--blue-deeper); color:var(--white); position:relative; overflow:hidden; }
+        .test::before { content:''; position:absolute; top:-200px; right:-150px; width:500px; height:500px; background:radial-gradient(circle,rgba(51,153,255,0.1),transparent 70%); border-radius:50%; }
+        .test::after { content:''; position:absolute; bottom:-200px; left:-150px; width:400px; height:400px; background:radial-gradient(circle,rgba(0,74,153,0.15),transparent 70%); border-radius:50%; }
+        .test .sec-tag { color:var(--blue-accent); }
+        .test .sec-tag::before, .test .sec-tag::after { background:var(--blue-accent); }
+        .test .sec-header h2 { color:var(--white); }
+        .test .sec-header p { color:rgba(255,255,255,0.5); }
+        .test-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; position:relative; z-index:1; }
+        .test-card { background:rgba(255,255,255,0.05); backdrop-filter:blur(16px); border:1px solid rgba(255,255,255,0.08); border-radius:24px; padding:40px 30px; transition:all 0.5s var(--ease); }
+        .test-card:hover { background:rgba(255,255,255,0.1); transform:translateY(-8px); }
+        .test-stars { display:flex; gap:4px; margin-bottom:24px; }
+        .test-stars svg { width:18px; height:18px; fill:#FFB800; }
+        .test-card blockquote { font-size:0.95rem; line-height:1.8; color:rgba(255,255,255,0.75); margin-bottom:30px; font-style:italic; }
+        .test-author { display:flex; align-items:center; gap:14px; }
+        .test-avatar { width:50px; height:50px; border-radius:50%; background:linear-gradient(135deg,var(--blue),var(--blue-accent)); display:flex; align-items:center; justify-content:center; font-family:var(--font); font-weight:700; font-size:0.9rem; }
+        .test-author h4 { font-family:var(--font); font-weight:600; font-size:0.92rem; }
+        .test-author p { font-size:0.78rem; color:rgba(255,255,255,0.4); margin-top:2px; }
+
+        /* === CTA === */
+        .cta { padding:120px 0; background:var(--white); }
+        .cta-box { background:linear-gradient(135deg,var(--blue-subtle),var(--blue-light)); border-radius:36px; padding:90px 60px; text-align:center; position:relative; overflow:hidden; }
+        .cta-box::before { content:''; position:absolute; top:-100px; right:-100px; width:300px; height:300px; background:radial-gradient(circle,rgba(0,102,204,0.08),transparent 70%); border-radius:50%; }
+        .cta-box h2 { font-family:var(--font); font-size:3rem; font-weight:800; letter-spacing:-0.02em; margin-bottom:20px; position:relative; }
+        .cta-box p { font-size:1.1rem; color:var(--gray-500); margin-bottom:44px; max-width:520px; margin-left:auto; margin-right:auto; position:relative; }
+
+        /* === CONTACT === */
+        .contact { background:var(--gray-50); }
+        .contact .container { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
+        .contact-info h2 { font-family:var(--font); font-size:2.4rem; font-weight:800; letter-spacing:-0.02em; margin-bottom:16px; }
+        .contact-info > p { font-size:1rem; color:var(--gray-500); line-height:1.75; margin-bottom:40px; }
+        .c-items { display:flex; flex-direction:column; gap:28px; }
+        .c-item { display:flex; gap:20px; align-items:flex-start; }
+        .c-item-icon { width:54px; height:54px; min-width:54px; background:var(--blue-light); border-radius:16px; display:flex; align-items:center; justify-content:center; transition:all 0.4s var(--ease); }
+        .c-item:hover .c-item-icon { background:var(--blue); transform:rotate(-5deg); }
+        .c-item:hover .c-item-icon svg { stroke:white; }
+        .c-item h4 { font-family:var(--font); font-weight:700; font-size:0.95rem; margin-bottom:6px; }
+        .c-item p { font-size:0.88rem; color:var(--gray-500); line-height:1.55; }
+
+        .contact-form-wrap { background:var(--white); border-radius:28px; padding:48px; box-shadow:0 20px 60px rgba(0,0,0,0.05); }
+        .c-form { display:flex; flex-direction:column; gap:22px; }
+        .f-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+        .f-group { display:flex; flex-direction:column; gap:8px; }
+        .f-group label { font-family:var(--font); font-size:0.85rem; font-weight:600; color:var(--gray-700); }
+        .f-group input, .f-group select, .f-group textarea {
+            font-family:var(--font2); font-size:0.9rem; padding:16px 20px;
+            border:2px solid var(--gray-200); border-radius:14px;
+            background:var(--white); color:var(--gray-900);
+            transition:all 0.3s var(--ease); outline:none;
+        }
+        .f-group input:focus, .f-group select:focus, .f-group textarea:focus { border-color:var(--blue); box-shadow:0 0 0 4px rgba(0,102,204,0.08); }
+        .f-group textarea { resize:vertical; min-height:120px; }
+        .f-group select { appearance:none; background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 16px center; padding-right:44px; }
+        .c-form .btn { width:100%; justify-content:center; padding:18px; }
+
+        /* === FOOTER === */
+        .footer { background:var(--gray-900); color:var(--white); padding:80px 0 0; }
+        .footer-top { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:48px; padding-bottom:60px; border-bottom:1px solid rgba(255,255,255,0.07); }
+        .footer-brand > p { font-size:0.88rem; color:rgba(255,255,255,0.4); line-height:1.7; margin-top:20px; max-width:320px; }
+        .footer-col h4 { font-family:var(--font); font-weight:700; font-size:0.95rem; margin-bottom:24px; }
+        .footer-col ul { display:flex; flex-direction:column; gap:14px; }
+        .footer-col a { font-size:0.85rem; color:rgba(255,255,255,0.4); transition:all 0.3s; }
+        .footer-col a:hover { color:var(--blue-accent); transform:translateX(4px); display:inline-block; }
+        .footer-bottom { display:flex; justify-content:space-between; align-items:center; padding:28px 0; }
+        .footer-bottom p { font-size:0.8rem; color:rgba(255,255,255,0.25); }
+        .footer-social { display:flex; gap:10px; }
+        .footer-social a { width:44px; height:44px; border-radius:12px; background:rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; transition:all 0.4s var(--ease); }
+        .footer-social a:hover { background:var(--blue); transform:translateY(-4px); }
+        .footer-social svg { width:18px; height:18px; stroke:rgba(255,255,255,0.5); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+        .footer-social a:hover svg { stroke:var(--white); }
+
+        /* === BACK TOP === */
+        .btt { position:fixed; bottom:32px; right:32px; z-index:999; width:50px; height:50px; border-radius:15px; background:var(--blue); color:var(--white); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 30px rgba(0,102,204,0.3); opacity:0; transform:translateY(20px) scale(0.8); transition:all 0.4s var(--ease); pointer-events:none; }
+        .btt.show { opacity:1; transform:translateY(0) scale(1); pointer-events:all; }
+        .btt:hover { transform:translateY(-4px) scale(1.05); }
+
+        /* === SCROLL ANIMATIONS === */
+        [data-anim] { opacity:0; transition:opacity 1s var(--ease), transform 1s var(--ease); }
+        [data-anim="up"] { transform:translateY(60px); }
+        [data-anim="down"] { transform:translateY(-60px); }
+        [data-anim="left"] { transform:translateX(-80px); }
+        [data-anim="right"] { transform:translateX(80px); }
+        [data-anim="scale"] { transform:scale(0.85); }
+        [data-anim="fade"] { transform:none; }
+        [data-anim].in { opacity:1; transform:translate(0) scale(1); }
+
+        [data-delay="1"] { transition-delay:0.1s !important; }
+        [data-delay="2"] { transition-delay:0.2s !important; }
+        [data-delay="3"] { transition-delay:0.3s !important; }
+        [data-delay="4"] { transition-delay:0.4s !important; }
+        [data-delay="5"] { transition-delay:0.5s !important; }
+        [data-delay="6"] { transition-delay:0.6s !important; }
+
+        /* === RESPONSIVE === */
+        @media(max-width:1024px) {
+            .hero h1 { font-size:3rem; }
+            .bento { grid-template-columns:repeat(8,1fr); }
+            .doc-grid { grid-template-columns:repeat(2,1fr); }
+            .footer-top { grid-template-columns:1fr 1fr; gap:40px; }
+            .par-div-content h2 { font-size:2.4rem; }
+            .par-div-stats { gap:32px; }
+        }
+        @media(max-width:810px) {
+            .container { padding:0 24px; }
+            .nav-links { display:none; }
+            .hamburger { display:block; }
+            .cursor { display:none !important; }
+
+            .hero { padding:120px 0 60px; min-height:auto; }
+            .hero .container { grid-template-columns:1fr; gap:40px; text-align:center; }
+            .hero h1 { font-size:2.6rem; }
+            .hero-buttons { justify-content:center; }
+            .hero-visual { order:-1; }
+            .hero-img-wrap { max-width:340px; }
+            .hero-person { width:100%; margin-left:0; }
+            .float-card { display:none; }
+
+            .marquee-item { font-size:0.9rem; }
+            .stats .container { grid-template-columns:repeat(2,1fr); }
+            .stat-num { font-size:2.6rem; }
+            .section { padding:80px 0; }
+            .sec-header h2 { font-size:2.2rem; }
+            .sec-header { margin-bottom:56px; }
+            .bento { grid-template-columns:1fr; }
+
+            .about .container { grid-template-columns:1fr; gap:48px; }
+            .about-img { height:380px; }
+            .about-accent { display:none; }
+
+            .par-div { height:auto; padding:80px 0; }
+            .par-div-content h2 { font-size:2rem; }
+            .par-div-stats { flex-direction:column; gap:20px; }
+
+            .doc-grid { grid-template-columns:repeat(2,1fr); gap:20px; }
+            .doc-img { height:260px; }
+            .test-grid { grid-template-columns:1fr; }
+
+            .cta-box { padding:56px 28px; border-radius:24px; }
+            .cta-box h2 { font-size:2rem; }
+
+            .contact .container { grid-template-columns:1fr; gap:48px; }
+            .f-row { grid-template-columns:1fr; }
+            .contact-form-wrap { padding:32px 24px; }
+
+            .footer-top { grid-template-columns:1fr; gap:32px; }
+            .footer-bottom { flex-direction:column; gap:16px; text-align:center; }
+        }
+        @media(max-width:480px) {
+            .hero h1 { font-size:2rem; }
+            .hero-img-wrap { max-width:260px; }
+            .hero-person { width:100%; margin-left:0; }
+            .stats .container { grid-template-columns:1fr; }
+            .doc-grid { grid-template-columns:1fr; }
+            .doc-img { height:340px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div class="loader" id="loader">
+    <svg class="loader-logo" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M24 4C20 4 17 7 17 11V17H11C7 17 4 20 4 24C4 28 7 31 11 31H17" stroke="url(#llCyan)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M17 31V37C17 41 20 44 24 44C28 44 31 41 31 37V31H37C41 31 44 28 44 24C44 20 41 17 37 17H31" stroke="url(#llBlue)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M31 17V11C31 7 28 4 24 4" stroke="url(#llMix)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <defs>
+            <linearGradient id="llCyan" x1="4" y1="4" x2="24" y2="31"><stop stop-color="#00D4AA"/><stop offset="1" stop-color="#00BCD4"/></linearGradient>
+            <linearGradient id="llBlue" x1="17" y1="44" x2="44" y2="17"><stop stop-color="#0088CC"/><stop offset="1" stop-color="#0066AA"/></linearGradient>
+            <linearGradient id="llMix" x1="24" y1="4" x2="31" y2="17"><stop stop-color="#00BCD4"/><stop offset="1" stop-color="#0088CC"/></linearGradient>
+        </defs>
+    </svg>
+    <div class="loader-bar"><div class="loader-bar-fill" id="loaderFill"></div></div>
+</div>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+
+<!-- SCROLL PROGRESS -->
+<div class="scroll-progress" id="scrollProg"></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+    <div class="container">
+        <a href="#" class="logo">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M24 4C20 4 17 7 17 11V17H11C7 17 4 20 4 24C4 28 7 31 11 31H17V37C17 41 20 44 24 44C28 44 31 41 31 37V31H37C41 31 44 28 44 24C44 20 41 17 37 17H31V11C31 7 28 4 24 4Z" fill="none"/>
+                <path d="M24 4C20 4 17 7 17 11V17H11C7 17 4 20 4 24C4 28 7 31 11 31H17" stroke="url(#lgCyan)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M17 31V37C17 41 20 44 24 44C28 44 31 41 31 37V31H37C41 31 44 28 44 24C44 20 41 17 37 17H31" stroke="url(#lgBlue)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M31 17V11C31 7 28 4 24 4" stroke="url(#lgMix)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <defs>
+                    <linearGradient id="lgCyan" x1="4" y1="4" x2="24" y2="31"><stop stop-color="#00D4AA"/><stop offset="1" stop-color="#00BCD4"/></linearGradient>
+                    <linearGradient id="lgBlue" x1="17" y1="44" x2="44" y2="17"><stop stop-color="#0088CC"/><stop offset="1" stop-color="#0066AA"/></linearGradient>
+                    <linearGradient id="lgMix" x1="24" y1="4" x2="31" y2="17"><stop stop-color="#00BCD4"/><stop offset="1" stop-color="#0088CC"/></linearGradient>
+                </defs>
+            </svg>
+            <div class="logo-text">Clinic <span>+Saúde</span></div>
+        </a>
+        <div class="nav-links">
+            <a href="#inicio">Início</a>
+            <a href="#especialidades">Especialidades</a>
+            <a href="#sobre">Sobre</a>
+            <a href="#equipe">Equipe</a>
+            <a href="#depoimentos">Depoimentos</a>
+            <a href="#contato" class="btn btn-primary"><span>Agendar Consulta</span></a>
+        </div>
+        <button class="hamburger" id="ham" aria-label="Menu">
+            <svg viewBox="0 0 28 28" fill="none" stroke-width="2" stroke-linecap="round"><line x1="4" y1="8" x2="24" y2="8" id="hL1"/><line x1="4" y1="14" x2="24" y2="14" id="hL2"/><line x1="4" y1="20" x2="24" y2="20" id="hL3"/></svg>
+        </button>
+    </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobMenu">
+    <a href="#inicio">Início</a>
+    <a href="#especialidades">Especialidades</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#equipe">Equipe</a>
+    <a href="#depoimentos">Depoimentos</a>
+    <a href="#contato">Contato</a>
+    <a href="#contato" class="btn btn-primary btn-lg" style="text-align:center;margin-top:24px;border-radius:16px;"><span>Agendar Consulta</span></a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+    <div class="hero-bg">
+        <div class="circle c1" data-speed="0.02"></div>
+        <div class="circle c2" data-speed="0.04"></div>
+        <div class="circle c3" data-speed="0.03"></div>
+    </div>
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-badge"><span class="dot"></span> Referência em Saúde</div>
+            <h1>
+                <span class="word"><span class="word-inner">Sua saúde</span></span>
+                <span class="word"><span class="word-inner">merece</span></span>
+                <span class="word"><span class="word-inner gradient">cuidado de</span></span>
+                <span class="word"><span class="word-inner gradient">excelência</span></span>
+            </h1>
+            <p class="hero-desc">Na Clinic +Saúde, unimos tecnologia de ponta e atendimento humanizado para oferecer a melhor experiência em cuidados médicos para você e sua família.</p>
+            <div class="hero-buttons">
+                <a href="#contato" class="btn btn-primary btn-lg"><span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-3px;margin-right:4px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    Agendar Consulta</span>
+                </a>
+                <a href="#especialidades" class="btn btn-outline btn-lg">Nossos Serviços</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="hero-img-wrap">
+                <div class="hero-img-shadow"></div>
+                <div class="hero-img-shadow-2"></div>
+                <img class="hero-person" src="assets/hero-doctor.png" alt="Médica profissional">
+                <div class="float-card fc1">
+                    <div class="fc-icon" style="background:#E8F5E9;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" stroke-width="2.5" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+                    <div class="fc-text"><h4>+2.500 consultas</h4><p>realizadas este mês</p></div>
+                </div>
+                <div class="float-card fc2">
+                    <div class="fc-icon" style="background:var(--blue-light);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                    <div class="fc-text"><h4>98% satisfação</h4><p>dos nossos pacientes</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+    <div class="marquee-track">
+        <div class="marquee-item"><span class="m-dot"></span>Cardiologia</div>
+        <div class="marquee-item"><span class="m-dot"></span>Pediatria</div>
+        <div class="marquee-item"><span class="m-dot"></span>Ortopedia</div>
+        <div class="marquee-item"><span class="m-dot"></span>Dermatologia</div>
+        <div class="marquee-item"><span class="m-dot"></span>Neurologia</div>
+        <div class="marquee-item"><span class="m-dot"></span>Clínica Geral</div>
+        <div class="marquee-item"><span class="m-dot"></span>Ginecologia</div>
+        <div class="marquee-item"><span class="m-dot"></span>Oftalmologia</div>
+        <div class="marquee-item"><span class="m-dot"></span>Cardiologia</div>
+        <div class="marquee-item"><span class="m-dot"></span>Pediatria</div>
+        <div class="marquee-item"><span class="m-dot"></span>Ortopedia</div>
+        <div class="marquee-item"><span class="m-dot"></span>Dermatologia</div>
+        <div class="marquee-item"><span class="m-dot"></span>Neurologia</div>
+        <div class="marquee-item"><span class="m-dot"></span>Clínica Geral</div>
+        <div class="marquee-item"><span class="m-dot"></span>Ginecologia</div>
+        <div class="marquee-item"><span class="m-dot"></span>Oftalmologia</div>
+    </div>
+</div>
+
+<!-- STATS -->
+<section class="stats">
+    <div class="container">
+        <div class="stat" data-anim="up"><div class="stat-num" data-count="15">0</div><div class="stat-label">Anos de Experiência</div></div>
+        <div class="stat" data-anim="up" data-delay="1"><div class="stat-num" data-count="50">0</div><div class="stat-label">Especialistas</div></div>
+        <div class="stat" data-anim="up" data-delay="2"><div class="stat-num" data-count="30">0</div><div class="stat-label">Especialidades</div></div>
+        <div class="stat" data-anim="up" data-delay="3"><div class="stat-num" data-count="120">0</div><div class="stat-label">Mil Pacientes Atendidos</div></div>
+    </div>
+</section>
+
+<!-- SPECIALTIES — BENTO LAYOUT -->
+<section class="section specs" id="especialidades">
+    <div class="container">
+        <div class="specs-top" data-anim="up">
+            <div class="specs-top-left">
+                <div class="sec-tag">Especialidades</div>
+                <h2>Cuidado completo para <span class="h-blue">toda a família</span></h2>
+            </div>
+            <div class="specs-top-right">
+                <p>Mais de 30 especialidades médicas com profissionais renomados e infraestrutura de última geração.</p>
+            </div>
+        </div>
+
+        <div class="bento">
+            <!-- FEATURED — Cardiologia (wide) -->
+            <div class="bento-item b-wide b-featured" data-anim="left" data-delay="1">
+                <img class="b-featured-img" src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=500&q=80&auto=format&fit=crop" alt="">
+                <div class="bento-inner">
+                    <div class="bento-icon bg-gradient">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    </div>
+                    <div class="bento-text">
+                        <div class="bento-line"></div>
+                        <h3>Cardiologia</h3>
+                        <p>Diagnóstico e tratamento de doenças cardiovasculares com exames de alta precisão, check-up cardiológico completo e acompanhamento especializado.</p>
+                    </div>
+                </div>
+                <div class="bento-num">01</div>
+            </div>
+
+            <!-- Clínica Geral (tall) -->
+            <div class="bento-item b-tall b-pattern" data-anim="right" data-delay="2">
+                <div class="bento-inner">
+                    <div class="bento-icon bg-blue">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                    </div>
+                    <div class="bento-text">
+                        <div class="bento-line"></div>
+                        <h3>Clínica Geral</h3>
+                        <p>Atendimento completo para prevenção, diagnóstico e tratamento das principais condições de saúde.</p>
+                    </div>
+                </div>
+                <div class="bento-num">02</div>
+            </div>
+
+            <!-- Pediatria (square) -->
+            <div class="bento-item b-sq" data-anim="up" data-delay="1">
+                <div class="bento-inner">
+                    <div class="bento-icon bg-blue">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <div class="bento-text">
+                        <div class="bento-line"></div>
+                        <h3>Pediatria</h3>
+                        <p>Cuidado dedicado à saúde infantil com abordagem acolhedora.</p>
+                    </div>
+                </div>
+                <div class="bento-num">03</div>
+            </div>
+
+            <!-- Ortopedia (outline) -->
+            <div class="bento-item b-rect b-outline" data-anim="up" data-delay="2">
+                <div class="bento-inner">
+                    <div class="bento-icon bg-blue">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    </div>
+                    <div class="bento-text">
+                        <div class="bento-line"></div>
+                        <h3>Ortopedia</h3>
+                        <p>Tratamento do sistema musculoesquelético com técnicas modernas.</p>
+                    </div>
+                </div>
+                <div class="bento-num">04</div>
+            </div>
+
+            <!-- Dermatologia -->
+            <div class="bento-item b-long" data-anim="up" data-delay="3">
+                <div class="bento-inner">
+                    <div class="bento-icon bg-blue">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    </div>
+                    <div class="bento-text">
+                        <div class="bento-line"></div>
+                        <h3>Dermatologia</h3>
+                        <p>Cuidados da pele, cabelos e unhas com tratamentos estéticos avançados.</p>
+                    </div>
+                </div>
+                <div class="bento-num">05</div>
+            </div>
+
+            <!-- Neurologia (featured dark) -->
+            <div class="bento-item b-wide b-featured" data-anim="right" data-delay="2" style="background:linear-gradient(135deg,var(--blue-deeper),var(--blue-dark));">
+                <img class="b-featured-img" src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=500&q=80&auto=format&fit=crop" alt="">
+                <div class="bento-inner">
+                    <div class="bento-icon bg-gradient">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    </div>
+                    <div class="bento-text">
+                        <div class="bento-line"></div>
+                        <h3>Neurologia</h3>
+                        <p>Diagnóstico e acompanhamento de doenças do sistema nervoso com tecnologia avançada, ressonância magnética e equipe multidisciplinar completa.</p>
+                    </div>
+                </div>
+                <div class="bento-num">06</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section about" id="sobre">
+    <div class="container">
+        <div class="about-vis" data-anim="left">
+            <div class="about-img">
+                <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=700&q=80&auto=format&fit=crop" alt="Interior moderno da clínica">
+                <div class="about-img-overlay"></div>
+            </div>
+            <div class="about-badge">
+                <div class="about-badge-num" data-count="15">0</div>
+                <div class="about-badge-text"><strong>Anos de</strong>Excelência</div>
+            </div>
+            <div class="about-accent"></div>
+        </div>
+        <div class="about-content" data-anim="right">
+            <div class="sec-tag">Sobre Nós</div>
+            <h2>Há 15 anos transformando vidas com saúde de qualidade</h2>
+            <p>Fundada em 2011, a Clinic +Saúde nasceu com o propósito de democratizar o acesso à medicina de excelência. Hoje, somos referência em atendimento humanizado e inovação.</p>
+            <div class="about-features">
+                <div class="about-feat" data-anim="right" data-delay="2">
+                    <div class="about-feat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+                    <div><h4>Tecnologia de Ponta</h4><p>Equipamentos de última geração para diagnósticos precisos e tratamentos eficazes.</p></div>
+                </div>
+                <div class="about-feat" data-anim="right" data-delay="3">
+                    <div class="about-feat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+                    <div><h4>Atendimento Humanizado</h4><p>Cada paciente é único. Oferecemos acolhimento e cuidado personalizado em cada consulta.</p></div>
+                </div>
+                <div class="about-feat" data-anim="right" data-delay="4">
+                    <div class="about-feat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div>
+                    <div><h4>Infraestrutura Completa</h4><p>Mais de 3.000m² com centro cirúrgico, laboratório e centro de imagem próprios.</p></div>
+                </div>
+            </div>
+            <a href="#contato" class="btn btn-primary btn-lg"><span>Conheça Nossa Estrutura</span></a>
+        </div>
+    </div>
+</section>
+
+<!-- PARALLAX DIVIDER -->
+<div class="par-div">
+    <div class="par-div-bg" id="parBg"></div>
+    <div class="par-div-overlay"></div>
+    <div class="par-div-content" data-anim="scale">
+        <h2>Excelência que você pode confiar</h2>
+        <p>Cada número representa vidas transformadas e a confiança depositada em nosso trabalho ao longo desses anos.</p>
+        <div class="par-div-stats">
+            <div class="par-div-stat"><h3 data-count="98">0</h3><p>% Satisfação</p></div>
+            <div class="par-div-stat"><h3 data-count="50">0</h3><p>Especialistas</p></div>
+            <div class="par-div-stat"><h3 data-count="24">0</h3><p>h Atendimento</p></div>
+            <div class="par-div-stat"><h3 data-count="120">0</h3><p>mil Pacientes</p></div>
+        </div>
+    </div>
+</div>
+
+<!-- DOCTORS -->
+<section class="section doctors" id="equipe">
+    <div class="container">
+        <div class="sec-header" data-anim="up">
+            <div class="sec-tag">Nossa Equipe</div>
+            <h2>Profissionais que fazem <span class="h-blue">a diferença</span></h2>
+            <p>Contamos com uma equipe de especialistas renomados, comprometidos com a excelência e o cuidado individualizado.</p>
+        </div>
+        <div class="doc-grid">
+            <div class="doc-card" data-anim="up" data-delay="1">
+                <div class="doc-img"><img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&q=80&auto=format&fit=crop&crop=top" alt="Dr. Ricardo Mendes"><div class="doc-line"></div></div>
+                <h3>Dr. Ricardo Mendes</h3><p>Cardiologia</p>
+            </div>
+            <div class="doc-card" data-anim="up" data-delay="2">
+                <div class="doc-img"><img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&q=80&auto=format&fit=crop&crop=top" alt="Dra. Ana Carolina Silva"><div class="doc-line"></div></div>
+                <h3>Dra. Ana Carolina Silva</h3><p>Dermatologia</p>
+            </div>
+            <div class="doc-card" data-anim="up" data-delay="3">
+                <div class="doc-img"><img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=400&q=80&auto=format&fit=crop&crop=top" alt="Dr. Paulo Henrique Costa"><div class="doc-line"></div></div>
+                <h3>Dr. Paulo Henrique Costa</h3><p>Ortopedia</p>
+            </div>
+            <div class="doc-card" data-anim="up" data-delay="4">
+                <div class="doc-img"><img src="https://images.unsplash.com/photo-1651008376811-b90baee60c1f?w=400&q=80&auto=format&fit=crop&crop=top" alt="Dra. Beatriz Ferreira"><div class="doc-line"></div></div>
+                <h3>Dra. Beatriz Ferreira</h3><p>Pediatria</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section test" id="depoimentos">
+    <div class="container">
+        <div class="sec-header" data-anim="up">
+            <div class="sec-tag">Depoimentos</div>
+            <h2>O que nossos pacientes dizem</h2>
+            <p>A confiança dos nossos pacientes é o nosso maior reconhecimento.</p>
+        </div>
+        <div class="test-grid">
+            <div class="test-card" data-anim="up" data-delay="1">
+                <div class="test-stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg></div>
+                <blockquote>"Fui atendida com muito carinho e profissionalismo. A equipe da Clinic +Saúde é incrível, me senti acolhida desde a recepção até a consulta."</blockquote>
+                <div class="test-author"><div class="test-avatar">MF</div><div><h4>Mariana Ferreira</h4><p>Paciente há 3 anos</p></div></div>
+            </div>
+            <div class="test-card" data-anim="up" data-delay="2">
+                <div class="test-stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg></div>
+                <blockquote>"A estrutura da clínica é impressionante. Fiz todos os meus exames no mesmo lugar e recebi o resultado no mesmo dia. Muito prático!"</blockquote>
+                <div class="test-author"><div class="test-avatar">CS</div><div><h4>Carlos Santos</h4><p>Paciente há 5 anos</p></div></div>
+            </div>
+            <div class="test-card" data-anim="up" data-delay="3">
+                <div class="test-stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg></div>
+                <blockquote>"Meus filhos adoram a Dra. Beatriz! Ela tem uma paciência enorme e sempre nos deixa tranquilos. A Clinic +Saúde é a clínica da nossa família."</blockquote>
+                <div class="test-author"><div class="test-avatar">RL</div><div><h4>Renata Lima</h4><p>Paciente há 2 anos</p></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+    <div class="container">
+        <div class="cta-box" data-anim="scale">
+            <h2>Cuide da sua saúde hoje</h2>
+            <p>Agende sua consulta agora mesmo e descubra como a Clinic +Saúde pode transformar o cuidado com a sua saúde.</p>
+            <a href="#contato" class="btn btn-primary btn-lg"><span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-3px;margin-right:4px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                Fale Conosco</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section contact" id="contato">
+    <div class="container">
+        <div class="contact-info" data-anim="left">
+            <div class="sec-tag">Contato</div>
+            <h2>Entre em contato conosco</h2>
+            <p>Estamos prontos para atender você. Agende sua consulta ou tire suas dúvidas.</p>
+            <div class="c-items">
+                <div class="c-item">
+                    <div class="c-item-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                    <div><h4>Endereço</h4><p>Av. Paulista, 1.578 - Sala 204<br>Bela Vista, São Paulo - SP</p></div>
+                </div>
+                <div class="c-item">
+                    <div class="c-item-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+                    <div><h4>Telefone</h4><p>(11) 3456-7890<br>(11) 98765-4321 (WhatsApp)</p></div>
+                </div>
+                <div class="c-item">
+                    <div class="c-item-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                    <div><h4>Horário de Funcionamento</h4><p>Seg a Sex: 07h às 20h<br>Sábado: 07h às 14h</p></div>
+                </div>
+            </div>
+        </div>
+        <div class="contact-form-wrap" data-anim="right">
+            <form class="c-form" id="cForm">
+                <div class="f-row">
+                    <div class="f-group"><label>Nome completo</label><input type="text" placeholder="Seu nome" required></div>
+                    <div class="f-group"><label>Telefone</label><input type="tel" id="phone" placeholder="(00) 00000-0000" required></div>
+                </div>
+                <div class="f-group"><label>E-mail</label><input type="email" placeholder="seu@email.com" required></div>
+                <div class="f-group"><label>Especialidade</label>
+                    <select required><option value="" disabled selected>Selecione uma especialidade</option><option>Cardiologia</option><option>Clínica Geral</option><option>Pediatria</option><option>Ortopedia</option><option>Dermatologia</option><option>Neurologia</option><option>Outra</option></select>
+                </div>
+                <div class="f-group"><label>Mensagem</label><textarea placeholder="Conte-nos como podemos ajudar..."></textarea></div>
+                <button type="submit" class="btn btn-primary btn-lg"><span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-3px;margin-right:4px"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                    Enviar Mensagem</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <a href="#" class="logo">
+                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M24 4C20 4 17 7 17 11V17H11C7 17 4 20 4 24C4 28 7 31 11 31H17" stroke="url(#fCyan)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M17 31V37C17 41 20 44 24 44C28 44 31 41 31 37V31H37C41 31 44 28 44 24C44 20 41 17 37 17H31" stroke="url(#fBlue)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M31 17V11C31 7 28 4 24 4" stroke="url(#fMix)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <defs>
+                            <linearGradient id="fCyan" x1="4" y1="4" x2="24" y2="31"><stop stop-color="#00D4AA"/><stop offset="1" stop-color="#00BCD4"/></linearGradient>
+                            <linearGradient id="fBlue" x1="17" y1="44" x2="44" y2="17"><stop stop-color="#0088CC"/><stop offset="1" stop-color="#0066AA"/></linearGradient>
+                            <linearGradient id="fMix" x1="24" y1="4" x2="31" y2="17"><stop stop-color="#00BCD4"/><stop offset="1" stop-color="#0088CC"/></linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="logo-text" style="color:#fff">Clinic <span>+Saúde</span></div>
+                </a>
+                <p>Há mais de 15 anos cuidando da saúde de milhares de famílias com excelência, tecnologia e muito carinho.</p>
+            </div>
+            <div class="footer-col"><h4>Links Rápidos</h4><ul><li><a href="#inicio">Início</a></li><li><a href="#especialidades">Especialidades</a></li><li><a href="#sobre">Sobre Nós</a></li><li><a href="#equipe">Equipe Médica</a></li><li><a href="#contato">Contato</a></li></ul></div>
+            <div class="footer-col"><h4>Especialidades</h4><ul><li><a href="#">Cardiologia</a></li><li><a href="#">Clínica Geral</a></li><li><a href="#">Pediatria</a></li><li><a href="#">Ortopedia</a></li><li><a href="#">Dermatologia</a></li></ul></div>
+            <div class="footer-col"><h4>Contato</h4><ul><li><a href="#">(11) 3456-7890</a></li><li><a href="#">(11) 98765-4321</a></li><li><a href="#">contato@clinicmaissaude.com.br</a></li><li><a href="#">Av. Paulista, 1.578</a></li></ul></div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Clinic +Saúde. Todos os direitos reservados.</p>
+            <div class="footer-social">
+                <a href="#"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="rgba(255,255,255,0.5)" stroke="none"/></svg></a>
+                <a href="#"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+                <a href="#"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+                <a href="#"><svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.13C5.12 19.56 12 19.56 12 19.56s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.43z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48" fill="rgba(255,255,255,0.5)" stroke="none"/></svg></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- BACK TO TOP -->
+<button class="btt" id="btt" aria-label="Voltar ao topo">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<script>
+(function(){
+    'use strict';
+
+    // === LOADER ===
+    const loader = document.getElementById('loader');
+    const loaderFill = document.getElementById('loaderFill');
+    let loadProg = 0;
+    const loadInterval = setInterval(() => {
+        loadProg += Math.random() * 25 + 10;
+        if (loadProg >= 100) loadProg = 100;
+        loaderFill.style.width = loadProg + '%';
+        if (loadProg >= 100) {
+            clearInterval(loadInterval);
+            setTimeout(() => {
+                loader.classList.add('hide');
+                animateHero();
+            }, 400);
+        }
+    }, 200);
+
+    // === HERO ENTRANCE ===
+    function animateHero() {
+        const badge = document.querySelector('.hero-badge');
+        const words = document.querySelectorAll('.hero h1 .word-inner');
+        const desc = document.querySelector('.hero-desc');
+        const btns = document.querySelector('.hero-buttons');
+        const imgWrap = document.querySelector('.hero-img-wrap');
+        const fc1 = document.querySelector('.fc1');
+        const fc2 = document.querySelector('.fc2');
+
+        setTimeout(() => { badge.style.cssText = 'opacity:1;transform:translateY(0);transition:all 0.8s var(--ease)'; }, 100);
+        words.forEach((w, i) => setTimeout(() => w.classList.add('visible'), 300 + i * 150));
+        setTimeout(() => { desc.style.cssText = 'opacity:1;transform:translateY(0);transition:all 0.8s var(--ease)'; }, 900);
+        setTimeout(() => { btns.style.cssText = 'opacity:1;transform:translateY(0);transition:all 0.8s var(--ease)'; }, 1100);
+        setTimeout(() => { imgWrap.style.cssText = 'opacity:1;transform:scale(1);transition:all 1s var(--ease)'; }, 500);
+        setTimeout(() => { fc1.style.cssText = 'opacity:1;transform:translateY(0);transition:all 0.7s var(--ease);animation:floatA 4s 1.5s ease-in-out infinite'; }, 1400);
+        setTimeout(() => { fc2.style.cssText = 'opacity:1;transform:translateY(0);transition:all 0.7s var(--ease);animation:floatB 4s 2s ease-in-out infinite'; }, 1600);
+    }
+
+    // Float animations via CSS
+    const floatStyle = document.createElement('style');
+    floatStyle.textContent = '@keyframes floatA{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-16px) rotate(1.5deg)}} @keyframes floatB{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-12px) rotate(-1.5deg)}}';
+    document.head.appendChild(floatStyle);
+
+    // === CURSOR ===
+    const cursor = document.getElementById('cursor');
+    let cx = 0, cy = 0, mx = 0, my = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    function moveCursor() {
+        cx += (mx - cx) * 0.15;
+        cy += (my - cy) * 0.15;
+        cursor.style.left = cx + 'px';
+        cursor.style.top = cy + 'px';
+        requestAnimationFrame(moveCursor);
+    }
+    moveCursor();
+    document.querySelectorAll('a, button, .bento-item, .doc-card, .test-card').forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+
+    // === SCROLL PROGRESS ===
+    const scrollProg = document.getElementById('scrollProg');
+
+    // === NAV ===
+    const nav = document.getElementById('nav');
+    const btt = document.getElementById('btt');
+
+    window.addEventListener('scroll', () => {
+        const y = window.scrollY;
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        scrollProg.style.width = (y / h * 100) + '%';
+        nav.classList.toggle('scrolled', y > 80);
+        btt.classList.toggle('show', y > 600);
+    }, { passive: true });
+
+    btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // === MOBILE MENU ===
+    const ham = document.getElementById('ham');
+    const mobMenu = document.getElementById('mobMenu');
+    let menuOpen = false;
+    ham.addEventListener('click', () => {
+        menuOpen = !menuOpen;
+        mobMenu.classList.toggle('open', menuOpen);
+        document.body.style.overflow = menuOpen ? 'hidden' : '';
+        ham.querySelector('svg').innerHTML = menuOpen
+            ? '<line x1="6" y1="6" x2="22" y2="22" stroke-width="2" stroke-linecap="round"/><line x1="22" y1="6" x2="6" y2="22" stroke-width="2" stroke-linecap="round"/>'
+            : '<line x1="4" y1="8" x2="24" y2="8"/><line x1="4" y1="14" x2="24" y2="14"/><line x1="4" y1="20" x2="24" y2="20"/>';
+    });
+    mobMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        menuOpen = false; mobMenu.classList.remove('open');
+        document.body.style.overflow = '';
+        ham.querySelector('svg').innerHTML = '<line x1="4" y1="8" x2="24" y2="8"/><line x1="4" y1="14" x2="24" y2="14"/><line x1="4" y1="20" x2="24" y2="20"/>';
+    }));
+
+    // === PARALLAX ON SCROLL ===
+    const parBg = document.getElementById('parBg');
+    const circles = document.querySelectorAll('.hero-bg .circle');
+
+    function handleParallax() {
+        const y = window.scrollY;
+
+        // Hero circles
+        circles.forEach(c => {
+            const speed = parseFloat(c.dataset.speed || 0);
+            c.style.transform = 'translate3d(0,' + (y * speed) + 'px,0)';
+        });
+
+        // Parallax divider bg
+        if (parBg) {
+            const rect = parBg.parentElement.getBoundingClientRect();
+            const offset = (rect.top) * 0.25;
+            parBg.style.transform = 'translate3d(0,' + offset + 'px,0)';
+        }
+    }
+    window.addEventListener('scroll', handleParallax, { passive: true });
+
+    // === SCROLL REVEAL (data-anim) ===
+    const animEls = document.querySelectorAll('[data-anim]');
+    const animObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); } });
+    }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+    animEls.forEach(el => animObs.observe(el));
+
+    // === COUNTERS ===
+    const counters = document.querySelectorAll('[data-count]');
+    function easeOut(t) { return 1 - Math.pow(1 - t, 4); }
+    const countObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (!e.isIntersecting) return;
+            const el = e.target;
+            const target = parseInt(el.dataset.count);
+            const start = performance.now();
+            const dur = 2200;
+            (function update(now) {
+                const p = Math.min((now - start) / dur, 1);
+                el.textContent = Math.round(easeOut(p) * target) + (p >= 1 ? '+' : '');
+                if (p < 1) requestAnimationFrame(update);
+            })(start);
+            countObs.unobserve(el);
+        });
+    }, { threshold: 0.5 });
+    counters.forEach(c => countObs.observe(c));
+
+    // === SMOOTH SCROLL ===
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', function(e) {
+            e.preventDefault();
+            const t = document.querySelector(this.getAttribute('href'));
+            if (t) {
+                const off = nav.offsetHeight + 20;
+                window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY - off, behavior: 'smooth' });
+            }
+        });
+    });
+
+    // === FORM ===
+    document.getElementById('cForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const b = this.querySelector('button');
+        const o = b.innerHTML;
+        b.innerHTML = '<span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="vertical-align:-3px;margin-right:4px"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Enviado com sucesso!</span>';
+        b.style.background = '#16a34a';
+        setTimeout(() => { b.innerHTML = o; b.style.background = ''; this.reset(); }, 3000);
+    });
+
+    // === PHONE MASK ===
+    document.getElementById('phone').addEventListener('input', function(e) {
+        let v = e.target.value.replace(/\D/g, '');
+        if (v.length <= 11) { v = v.replace(/^(\d{2})(\d)/g, '($1) $2'); v = v.replace(/(\d{5})(\d)/, '$1-$2'); }
+        e.target.value = v;
+    });
+
+    // Disable parallax on mobile for performance
+    if (window.innerWidth <= 810) {
+        window.removeEventListener('scroll', handleParallax);
+    }
+
+})();
+</script>
+</body>
+</html>
